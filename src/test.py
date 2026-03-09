@@ -1,4 +1,10 @@
 import numpy as np
+from embedding import Embedding, PositionalEncoding
 
-arr = np.array([[[1,2,3], [4,5,6]], [[1,2,3], [4,5,6]]])
-print(arr[0][[0,1,0]])
+e = Embedding(3,2)
+in_idx = np.array([[1, 0], [0, 1]])
+em = e(in_idx)
+
+pe = PositionalEncoding(em)
+pos = pe()
+print(pos, em)
