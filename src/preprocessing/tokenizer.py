@@ -29,13 +29,20 @@ class GptTokenizer:
             ],
         )
 
-        files = ["corpus.txt"]
+        files = ["../../data/text.txt"]
         tokenizer.train(files, trainer)
         tokenizer.save("tokenizer.json")
 
     def load_tokenizer(self):
-        tokenizer = Tokenizer.from_file("tokenizer.json")
+        tokenizer: Tokenizer = Tokenizer.from_file("tokenizer.json")
+        tokenizer.enable_padding(pad_id=tokenizer.token_to_id("<PAD>"), pad_token="<PAD>", length=256)
         return tokenizer
     
-tok = GptTokenizer(3, 1, "aa")
+tok = GptTokenizer(3, 1, "../../data/")
 tok.train_tokenizer()
+
+tokeniz = tok.load_tokenizer()
+
+print(tokeniz.encode("I like to eat apples").ids)
+
+print(tokeniz.encode("I like apples", ).ids)

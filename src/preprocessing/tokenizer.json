@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "truncation": null,
+  "padding": null,
+  "added_tokens": [
+    {
+      "id": 0,
+      "content": "<UNK>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 1,
+      "content": "<PAD>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 2,
+      "content": "<SOS>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    },
+    {
+      "id": 3,
+      "content": "<EOS>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": false,
+      "special": true
+    }
+  ],
+  "normalizer": null,
+  "pre_tokenizer": {
+    "type": "ByteLevel",
+    "add_prefix_space": true,
+    "trim_offsets": true,
+    "use_regex": true
+  },
+  "post_processor": null,
+  "decoder": {
+    "type": "ByteLevel",
+    "add_prefix_space": true,
+    "trim_offsets": true,
+    "use_regex": true
+  },
+  "model": {
+    "type": "BPE",
+    "dropout": null,
+    "unk_token": "<UNK>",
+    "continuing_subword_prefix": null,
+    "end_of_word_suffix": null,
+    "fuse_unk": false,
+    "byte_fallback": false,
+    "ignore_merges": false,
+    "vocab": {
+      "<UNK>": 0,
+      "<PAD>": 1,
+      "<SOS>": 2,
+      "<EOS>": 3,
+      ".": 4,
+      "4": 5,
+      "F": 6,
+      "G": 7,
+      "I": 8,
+      "T": 9,
+      "a": 10,
+      "b": 11,
+      "c": 12,
+      "d": 13,
+      "e": 14,
+      "g": 15,
+      "h": 16,
+      "i": 17,
+      "k": 18,
+      "l": 19,
+      "n": 20,
+      "o": 21,
+      "p": 22,
+      "r": 23,
+      "s": 24,
+      "t": 25,
+      "u": 26,
+      "v": 27,
+      "w": 28,
+      "x": 29,
+      "Ċ": 30,
+      "Ġ": 31
+    },
+    "merges": []
+  }
+}
