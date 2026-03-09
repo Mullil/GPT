@@ -29,6 +29,9 @@ class Tensor:
         result.backward_fn = backward_fn
         return result
     
+    def __getitem__(self, idx: 'Tensor'):
+        return self.data[idx.data]
+    
     def __matmul__(self, x):
         result = Tensor(self.data @ x.data)
         result.children.append(self)
