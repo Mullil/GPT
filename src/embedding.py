@@ -18,12 +18,12 @@ class Embedding:
         Returns:
             embeddings: (batch, embedding_dim, d_model)
         """
-        embeddings = self.w.data[in_idx]
+        embeddings = self.w[in_idx]
         print(embeddings)
         return embeddings
     
 e = Embedding(10,2)
-in_idx = np.array([[0,1], [1,0], [1,1]])
+in_idx = Tensor(np.array([[0,1], [1,0], [1,1]]))
 e(in_idx)
 
 

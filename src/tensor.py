@@ -12,7 +12,7 @@ class Tensor:
         result.children.append(self)
         result.children.append(x)
 
-        def backward_fn(parent):
+        def backward_fn(parent: Tensor):
             parent.children[0].grad += parent.grad
             parent.children[1].grad += parent.grad
 
@@ -23,21 +23,28 @@ class Tensor:
         result = Tensor(self.data * x.data)
         result.children.append(self)
 
-        def backward_fn(parent):
+        def backward_fn(parent: Tensor):
             parent.children[0].grad += parent.grad * x
 
         result.backward_fn = backward_fn
         return result
     
     def __getitem__(self, idx: 'Tensor'):
-        return self.data[idx.data]
+        result = Tensor(self.data[idx.data])
+        result.children.append(self)
+
+        def backward_fn(parent: Tensor):
+            np.add.at(parent.children[0].grad, idx.data, parent.grad)
+        
+        result.backward_fn = backward_fn
+        return result
     
     def __matmul__(self, x):
         result = Tensor(self.data @ x.data)
         result.children.append(self)
         result.children.append(x)
 
-        def backward_fn(parent):
+        def backward_fn(parent: Tensor):
             parent.children[0].grad += parent.grad @ x.data.T
             parent.children[1].grad += self.data.T @ parent.grad
 
