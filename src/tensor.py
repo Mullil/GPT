@@ -19,8 +19,34 @@ class Tensor:
         result.backward_fn = backward_fn
         return result
     
+    def __mul__(self, x):
+        result = Tensor(self.data * x.data)
+        result.children.append(self)
+
+        def backward_fn(parent):
+            parent.children[0].grad += parent.grad * x
+
+        result.backward_fn = backward_fn
+        return result
+    
+    def __matmul__(self, x):
+        result = Tensor(self.data @ x.data)
+        result.children.append(self)
+        result.children.append(x)
+
+        def backward_fn(parent):
+            parent.children[0].grad += parent.grad @ x.data.T
+            parent.children[1].grad += self.data.T @ parent.grad
+
+        result.backward_fn = backward_fn
+        return result
+
     def ffnn_hidden(self, w, b):
-        pass
+        result = (self @ w) + b
+        return result.relu()
+    
+    def relu(self):
+        return self * (self.data > 0)
 
     def softmax(self, data):
         result = np.exp(data - np.max(data)) / \
@@ -31,4 +57,10 @@ class Tensor:
         pass
 
     def layer_norm(self):
+        pass
+
+    def self_attention(self):
+        pass
+
+    def masked_attention(self):
         pass
