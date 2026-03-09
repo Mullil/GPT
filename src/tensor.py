@@ -57,6 +57,28 @@ class Tensor:
     
     def relu(self):
         return self * (self.data > 0)
+    
+    def _tanh(self, x):
+        return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
+    
+    def gelu(self):
+        result = Tensor(0.5 * self.data * (1 + self._tanh( np.sqrt(2 / np.pi) * (self.data + 0.044715 * self.data**3) )))
+        result.children.append(self)
+
+        def backward_fn(parent: Tensor):
+            tanh_term = self._tanh( np.sqrt(2 / np.pi) * (self.data + 0.044715 * self.data**3) )
+            parent.children[0].grad += 0.5 * parent.grad * (1 + tanh_term) + \
+                                        0.5 * parent.grad * self.data * (1 - tanh_term**2) * \
+                                        (np.sqrt(2 / np.pi) * (1 + 3 * 0.044715 * self.data**2))
+
+        result.backward_fn = backward_fn
+        return result
+
+
+    def dropout(self, p):
+        mask = (np.random.rand(*self.shape) > p).astype(np.float32)
+        result = self * mask
+        return result
 
     def softmax(self, data):
         result = np.exp(data - np.max(data)) / \
